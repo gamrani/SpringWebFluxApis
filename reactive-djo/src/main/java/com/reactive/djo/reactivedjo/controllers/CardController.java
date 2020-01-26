@@ -1,10 +1,11 @@
 package com.reactive.djo.reactivedjo.controllers;
 
 import com.reactive.djo.reactivedjo.models.Card;
+import com.reactive.djo.reactivedjo.models.CardEvent;
 import com.reactive.djo.reactivedjo.services.CardService;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.VoidType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -53,6 +54,11 @@ public class CardController {
     @DeleteMapping
     public Mono<Void> deleteAllCards(){
         return cardService.deleteAll();
+    }
+
+    @GetMapping(value = "/events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<CardEvent> getCardEvents(){
+        return cardService.getCardEvents();
     }
 
 }

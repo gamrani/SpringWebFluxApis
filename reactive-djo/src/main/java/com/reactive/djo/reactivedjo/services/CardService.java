@@ -1,11 +1,14 @@
 package com.reactive.djo.reactivedjo.services;
 
 import com.reactive.djo.reactivedjo.models.Card;
+import com.reactive.djo.reactivedjo.models.CardEvent;
 import com.reactive.djo.reactivedjo.repositories.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @Service
 public class CardService {
@@ -41,5 +44,10 @@ public class CardService {
 
     public Mono<Void> deleteAll() {
         return cardRepository.deleteAll();
+    }
+
+    public Flux<CardEvent> getCardEvents() {
+        return Flux.interval(Duration.ofSeconds(1))
+                .map(value -> new CardEvent(value, "Product Event"));
     }
 }
