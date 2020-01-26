@@ -1,6 +1,6 @@
 package com.reactive.djo.reactivedjo.config;
 
-import com.reactive.djo.reactivedjo.model.Card;
+import com.reactive.djo.reactivedjo.models.Card;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

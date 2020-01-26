@@ -1,4 +1,4 @@
-package com.reactive.djo.reactivedjo.model;
+package com.reactive.djo.reactivedjo.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
