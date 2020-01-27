@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootApplication
 @EnableReactiveMongoRepositories
 public class ReactiveDjoApplication {
-	@Value("${card.api.url}")
+	@Value("${defaultBaseUrl}")
 	private String cardApiUrl;
 
 	@Bean

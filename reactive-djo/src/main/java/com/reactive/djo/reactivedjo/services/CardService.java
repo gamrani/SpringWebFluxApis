@@ -1,7 +1,7 @@
 package com.reactive.djo.reactivedjo.services;
 
 import com.reactive.djo.reactivedjo.models.Account;
-import   com.reactive.djo.reactivedjo.models.Card;
+import com.reactive.djo.reactivedjo.models.Card;
 import com.reactive.djo.reactivedjo.models.CardEvent;
 import com.reactive.djo.reactivedjo.repositories.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +17,9 @@ import java.time.Duration;
 public class CardService {
     @Autowired
     private WebClient webClient;
-
     @Autowired
     private CardRepository cardRepository;
-    @Value("${card.api.url}")
+    @Value("${account.api.url}")
     private String cardApiUrl;
 
     public Mono<Card> activateCard(String cardId,int accountNumber) {
