@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class DataConfig{
 
+    //@Bean  // Used for the first time data init
     CommandLineRunner initAccounts(ReactiveMongoOperations reactiveMongoOperations, AccountRepository accountRepository){
         return args -> {
           Flux<Account> accountFlux = Flux.just(
@@ -36,7 +37,8 @@ public class DataConfig{
                     .subscribe(System.out::println);
         };
     }
-
+    
+    //@Bean  // Used for the first time data init
     CommandLineRunner initCards(ReactiveMongoOperations reactiveMongoOperations, CardRepository cardRepository){
         return args -> {
             Flux<Card> cardFlux = Flux.just(
