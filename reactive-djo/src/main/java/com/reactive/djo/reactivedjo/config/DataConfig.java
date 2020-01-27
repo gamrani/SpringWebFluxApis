@@ -1,6 +1,9 @@
 package com.reactive.djo.reactivedjo.config;
 
+
+import com.reactive.djo.reactivedjo.models.Account;
 import com.reactive.djo.reactivedjo.models.Card;
+import com.reactive.djo.reactivedjo.repositories.AccountRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +13,31 @@ import com.reactive.djo.reactivedjo.repositories.CardRepository;
 import reactor.core.publisher.Mono;
 
 @Configuration
-public class DataGenerator {
+public class DataConfig{
 
-    @Bean
-    CommandLineRunner init(ReactiveMongoOperations reactiveMongoOperations, CardRepository cardRepository){
+    CommandLineRunner initAccounts(ReactiveMongoOperations reactiveMongoOperations, AccountRepository accountRepository){
+        return args -> {
+          Flux<Account> accountFlux = Flux.just(
+             new Account(null,1),
+                  new Account(null,2),
+                  new Account(null,3),
+                  new Account(null,4)
+          ).flatMap(accountRepository::save) ;
+
+          accountFlux
+                  .thenMany(accountRepository.findAll())
+                  .subscribe(System.out::println);
+
+            reactiveMongoOperations.collectionExists(Account.class)
+                    .flatMapMany(exists -> exists ? reactiveMongoOperations.dropCollection(Account.class): Mono.just(exists))
+                    .thenMany(collection -> reactiveMongoOperations.createCollection(Account.class))
+                    .thenMany(accountFlux)
+                    .thenMany(accountRepository.findAll())
+                    .subscribe(System.out::println);
+        };
+    }
+
+    CommandLineRunner initCards(ReactiveMongoOperations reactiveMongoOperations, CardRepository cardRepository){
         return args -> {
             Flux<Card> cardFlux = Flux.just(
                   new Card(null,"Card 1","Rewards"),
@@ -35,4 +59,5 @@ public class DataGenerator {
                     .subscribe(System.out::println);
         };
     }
+
 }

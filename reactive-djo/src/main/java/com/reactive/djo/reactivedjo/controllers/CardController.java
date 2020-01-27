@@ -18,13 +18,21 @@ public class CardController {
     @Autowired
     private CardService cardService;
 
+    @PostMapping("/{cardId}/account/{accountNumber}")
+    public Mono<ResponseEntity<Card>> activateCard(@PathVariable int accountNumber, @PathVariable String cardId){
+        return cardService.activateCard(cardId,accountNumber)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+
+    }
+
     @GetMapping
     public Flux<Card> getAllCards(){
         return cardService.getAllCards();
     }
 
-    @GetMapping("{id}")
-    public Mono<ResponseEntity<Card>> getPoductById(@PathVariable String id){
+    @GetMapping("/{id}")
+    public Mono<ResponseEntity<Card>> getCardById(@PathVariable String id){
         return cardService.getCardById(id)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -36,15 +44,15 @@ public class CardController {
          return cardService.save(card);
     }
 
-    @PutMapping("{id}")
-    public Mono<ResponseEntity<Card>> updateCard(@PathVariable(value="id") String id,
+    @PutMapping("/{id}")
+    public Mono<ResponseEntity<Card>> updateCard(@PathVariable(value="id") String  id,
                                                  @RequestBody Card card){
         return cardService.updateCard(id, card)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Void>> deleteCard(@PathVariable String id){
         return cardService.deleteCard(id)
                .map(ResponseEntity::ok)

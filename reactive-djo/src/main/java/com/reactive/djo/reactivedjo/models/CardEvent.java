@@ -42,8 +42,4 @@ public class CardEvent {
         return Objects.hash(getEventId(), getEventType());
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

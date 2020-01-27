@@ -3,10 +3,11 @@ package com.reactive.djo.reactivedjo.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-@Document
-public class Card {
+@Document(collection = "cards")
+public class Card implements Serializable {
     @Id
     private String id;
 
@@ -14,10 +15,23 @@ public class Card {
 
     private String type;
 
+    private Account account;
+
     public Card(String id, String name, String type) {
         this.id = id;
         this.name = name;
         this.type = type;
+    }
+
+    public Card() {
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public String getId() {
